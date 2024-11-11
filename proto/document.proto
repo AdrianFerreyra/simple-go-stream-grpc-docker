@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package document.v1;
+
+option go_package = "github.com/AdrianFerreyra/simple-go-stream-grpc-docker/pkg/pb";
+
+service DataService {
+    rpc GetUpdates(UpdateRequest) returns (stream UpdateResponse) {}
+  }
+  
+  message UpdateRequest {
+    string client_id = 1;
+  }
+  
+  message UpdateResponse {
+    string data = 1;
+    int64 timestamp = 2;
+  }

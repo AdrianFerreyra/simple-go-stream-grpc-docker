@@ -1,0 +1,31 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.31-latest
+    ports:
+      - "8080:8080"
+      - "9901:9901"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    depends_on:
+      - document_service
+    networks:
+      - grpc_network
+
+  document_service:
+    build:
+      context: .
+      dockerfile: dockerfile.documentservice
+    expose:
+      - "50005"
+    networks:
+      - grpc_network
+
+  # mongodb:
+  #   image: "mongo"
+  #   restart: always
+  #   ports:
+  #     - "27017:27017"
+
+networks:
+  grpc_network:
+    driver: bridge
